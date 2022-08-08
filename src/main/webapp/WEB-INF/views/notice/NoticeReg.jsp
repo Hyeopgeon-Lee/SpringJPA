@@ -22,8 +22,8 @@
                 return false;
             }
 
-            var noticeCheck = false; //체크 여부 확인 변수
-            for (var i = 0; i < f.noticeYn.length; i++) {
+            let noticeCheck = false; //체크 여부 확인 변수
+            for (let i = 0; i < f.noticeYn.length; i++) {
                 if (f.noticeYn[i].checked) {
                     noticeCheck = true;
                 }
@@ -53,12 +53,12 @@
         //글자 길이 바이트 단위로 체크하기(바이트값 전달)
         function calBytes(str) {
 
-            var tcount = 0;
-            var tmpStr = String(str);
-            var strCnt = tmpStr.length;
+            let tcount = 0;
+            let tmpStr = String(str);
+            let strCnt = tmpStr.length;
 
-            var onechar;
-            for (i = 0; i < strCnt; i++) {
+            let onechar;
+            for (let i = 0; i < strCnt; i++) {
                 onechar = tmpStr.charAt(i);
 
                 if (escape(onechar).length > 4) {

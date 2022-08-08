@@ -85,7 +85,7 @@
             let strCnt = tmpStr.length;
 
             let onechar;
-            for (var i = 0; i < strCnt; i++) {
+            for (let i = 0; i < strCnt; i++) {
                 onechar = tmpStr.charAt(i);
 
                 if (escape(onechar).length > 4) {

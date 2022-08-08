@@ -4,7 +4,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="kopo.poly.util.CmmUtil" %>
 <%
-    session.setAttribute("SESSION_USER_ID", "USER01"); //세션 강제 적용, 로그인된 상태로 보여주기 위함
+    //세션 강제 적용, 로그인된 상태로 보여주기 위함
+    session.setAttribute("SESSION_USER_ID", "USER01");
 
     List<NoticeDTO> rList = (List<NoticeDTO>) request.getAttribute("rList");
 

@@ -1,4 +1,3 @@
-<%@ page import="kopo.poly.util.CmmUtil" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,6 +73,9 @@
     </script>
 </head>
 <body onload="doOnload();">
+<h2>공지사항 등록하기</h2>
+<hr/>
+<br/>
 <form name="f" method="post" action="/notice/noticeInsert" onsubmit="return doSubmit(this);">
     <div class="divTable minimalistBlack">
         <div class="divTableBody">

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="kopo.poly.dto.NoticeDTO" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
@@ -8,7 +8,7 @@
 
     List<NoticeDTO> rList = (List<NoticeDTO>) request.getAttribute("rList");
 
-//게시판 조회 결과 보여주기
+    //게시판 조회 결과 보여주기
     if (rList == null) {
         rList = new ArrayList<>();
 
@@ -20,6 +20,7 @@
 <head>
     <meta charset="UTF-8">
     <title>공지 리스트</title>
+    <link rel="stylesheet" href="/css/table.css"/>
     <script type="text/javascript">
 
         //상세보기 이동
@@ -34,52 +35,55 @@
 <hr/>
 <br/>
 
-<table border="1" width="600px">
-    <tr>
-        <td width="100" align="center">순번</td>
-        <td width="200" align="center">제목</td>
-        <td width="100" align="center">조회수</td>
-        <td width="100" align="center">등록자</td>
-        <td width="100" align="center">등록일</td>
-    </tr>
-    <%
-        for (NoticeDTO rDTO : rList) {
-            if (rDTO == null) {
-                rDTO = new NoticeDTO();
-            }
-
-    %>
-    <tr>
-        <td align="center">
-            <%
-                String html = "";
-                //공지글이라면, [공지]표시
-                if (CmmUtil.nvl(rDTO.getNoticeYn()).equals("1")) {
-                    html += ("<b>[공지]</b>");
-
-                    //공지글이 아니라면, 글번호 보여주기
-                } else {
-                    html += (rDTO.getNoticeSeq());
-
+<div class="divTable minimalistBlack">
+    <div class="divTableHeading">
+        <div class="divTableRow">
+            <div class="divTableHead">순번</div>
+            <div class="divTableHead">제목</div>
+            <div class="divTableHead">조회수</div>
+            <div class="divTableHead">등록자</div>
+            <div class="divTableHead">등록일</div>
+        </div>
+    </div>
+    <div class="divTableBody">
+        <%
+            for (NoticeDTO rDTO : rList) {
+                if (rDTO == null) {
+                    rDTO = new NoticeDTO();
                 }
-            %><%= html%>
-        </td>
-        <td align="center">
-            <a href="javascript:doDetail('<%=rDTO.getNoticeSeq()%>');">
-                <%=CmmUtil.nvl(rDTO.getTitle()) %>
-            </a>
-        </td>
-        <td align="center"><%=CmmUtil.nvl(rDTO.getReadCnt()) %>
-        </td>
-        <td align="center"><%=CmmUtil.nvl(rDTO.getUserName()) %>
-        </td>
-        <td align="center"><%=CmmUtil.nvl(rDTO.getRegDt()) %>
-        </td>
-    </tr>
-    <%
-        }
-    %>
-</table>
+        %>
+        <div class="divTableRow">
+            <div class="divTableCell">
+                <%
+                    String html = "";
+                    //공지글이라면, [공지]표시
+                    if (CmmUtil.nvl(rDTO.getNoticeYn()).equals("1")) {
+                        html += ("<b>[공지]</b>");
+
+                        //공지글이 아니라면, 글번호 보여주기
+                    } else {
+                        html += (rDTO.getNoticeSeq());
+
+                    }
+                %><%= html%>
+            </div>
+            <div class="divTableCell">
+                <a href="javascript:doDetail('<%=rDTO.getNoticeSeq()%>');">
+                    <%=CmmUtil.nvl(rDTO.getTitle()) %>
+                </a>
+            </div>
+            <div class="divTableCell"><%=CmmUtil.nvl(rDTO.getReadCnt()) %>
+            </div>
+            <div class="divTableCell"><%=CmmUtil.nvl(rDTO.getUserName()) %>
+            </div>
+            <div class="divTableCell"><%=CmmUtil.nvl(rDTO.getRegDt()) %>
+            </div>
+        </div>
+        <%
+            }
+        %>
+    </div>
+</div>
 <a href="/notice/noticeReg">[글쓰기]</a>
 </body>
 </html>

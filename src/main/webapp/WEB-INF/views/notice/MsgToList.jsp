@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="kopo.poly.util.CmmUtil" %>
 <%
-
 //전달받은 메시지
 String msg = CmmUtil.nvl((String)request.getAttribute("msg"));
 %>
@@ -21,3 +20,4 @@ String msg = CmmUtil.nvl((String)request.getAttribute("msg"));
 
 </body>
 </html>
+

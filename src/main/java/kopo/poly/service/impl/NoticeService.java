@@ -124,14 +124,11 @@ public class NoticeService implements INoticeService {
 
         log.info(this.getClass().getName() + ".InsertNoticeInfo Start!");
 
-        Long noticeSeq = pDTO.getNoticeSeq();
-
         String title = CmmUtil.nvl(pDTO.getTitle());
         String noticeYn = CmmUtil.nvl(pDTO.getNoticeYn());
         String contents = CmmUtil.nvl(pDTO.getContents());
         String userId = CmmUtil.nvl(pDTO.getUserId());
 
-        log.info("noticeSeq : " + noticeSeq);
         log.info("title : " + title);
         log.info("noticeYn : " + noticeYn);
         log.info("contents : " + contents);

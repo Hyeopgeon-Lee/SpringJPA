@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="kopo.poly.dto.NoticeDTO" %>
 <%@ page import="kopo.poly.util.CmmUtil" %>
 <%
@@ -34,6 +34,7 @@
 <head>
     <meta charset="UTF-8">
     <title>게시판 글보기</title>
+    <link rel="stylesheet" href="/css/table.css"/>
     <script type="text/javascript">
 
         //수정하기
@@ -77,44 +78,51 @@
     </script>
 </head>
 <body>
-<table border="1">
-    <col width="100px"/>
-    <col width="200px"/>
-    <col width="100px"/>
-    <col width="200px"/>
-    <tr>
-        <td align="center">제목</td>
-        <td colspan="3"><%=CmmUtil.nvl(rDTO.getTitle())%>
-        </td>
-    </tr>
-    <tr>
-        <td align="center">공지글 여부</td>
-        <td colspan="3">예<input type="radio" name="noticeYn" value="1"
-                <%=CmmUtil.checked(CmmUtil.nvl(rDTO.getNoticeYn()), "1") %>/>
-            아니오<input type="radio" name="noticeYn" value="2"
-                    <%=CmmUtil.checked(CmmUtil.nvl(rDTO.getNoticeYn()), "2") %>/>
-        </td>
-    </tr>
-    <tr>
-        <td align="center">작성일</td>
-        <td><%=CmmUtil.nvl(rDTO.getRegDt())%>
-        </td>
-        <td align="center">조회수</td>
-        <td><%=CmmUtil.nvl(rDTO.getReadCnt())%>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="4" height="300px" valign="top">
-            <%=CmmUtil.nvl(rDTO.getContents()).replaceAll("\r\n", "<br/>") %>
-        </td>
-    </tr>
-    <tr>
-        <td align="center" colspan="4">
-            <a href="javascript:doEdit();">[수정]</a>
-            <a href="javascript:doDelete();">[삭제]</a>
-            <a href="javascript:doList();">[목록]</a>
-        </td>
-    </tr>
-</table>
+<h2>공지사항 상세보기</h2>
+<hr/>
+<br/>
+<div class="divTable minimalistBlack">
+    <div class="divTableBody">
+        <div class="divTableRow">
+            <div class="divTableCell">제목
+            </div>
+            <div class="divTableCell"><%=CmmUtil.nvl(rDTO.getTitle())%>
+            </div>
+        </div>
+        <div class="divTableRow">
+            <div class="divTableCell">공지글 여부
+            </div>
+            <div class="divTableCell">
+                예<input type="radio" name="noticeYn" value="Y"
+                    <%=CmmUtil.checked(CmmUtil.nvl(rDTO.getNoticeYn()), "Y") %>/>
+                아니오<input type="radio" name="noticeYn" value="N"
+                    <%=CmmUtil.checked(CmmUtil.nvl(rDTO.getNoticeYn()), "N") %>/>
+            </div>
+        </div>
+        <div class="divTableRow">
+            <div class="divTableCell">작성일
+            </div>
+            <div class="divTableCell"><%=CmmUtil.nvl(rDTO.getRegDt())%>
+            </div>
+        </div>
+        <div class="divTableRow">
+            <div class="divTableCell">조회수
+            </div>
+            <div class="divTableCell"><%=CmmUtil.nvl(rDTO.getReadCnt())%>
+            </div>
+        </div>
+        <div class="divTableRow">
+            <div class="divTableCell">내용
+            </div>
+            <div class="divTableCell"><%=CmmUtil.nvl(rDTO.getContents()).replaceAll("\r\n", "<br/>") %>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <a href="javascript:doEdit();">[수정]</a>
+    <a href="javascript:doDelete();">[삭제]</a>
+    <a href="javascript:doList();">[목록]</a>
+</div>
 </body>
 </html>

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +42,7 @@ public class NoticeController {
      * 게시판 리스트 보여주기
      */
     @GetMapping(value = "noticeList")
-    public String noticeList(HttpServletRequest request, HttpServletResponse response, ModelMap model)
-            throws Exception {
+    public String noticeList(ModelMap model) {
 
         // 로그 찍기(추후 찍은 로그를 통해 이 함수에 접근했는지 파악하기 용이하다.)
         log.info(this.getClass().getName() + ".noticeList start!");
@@ -68,8 +66,8 @@ public class NoticeController {
 
         // 함수 처리가 끝나고 보여줄 JSP 파일명(/WEB-INF/view/notice/NoticeList.jsp)
         return "/notice/NoticeList";
-
     }
+
 
     /**
      * 게시판 상세보기
@@ -134,12 +132,12 @@ public class NoticeController {
 
             pDTO.setNoticeSeq(Long.parseLong(nSeq));
 
-            /*
-             * ####################################################### 공지사항 수정정보 가져오기(상세보기
-             * 쿼리와 동일하여, 같은 서비스 쿼리 사용함)
-             * #######################################################
-             */
             NoticeDTO rDTO = noticeService.getNoticeInfo(pDTO, false);
+            /*
+             * ###################################################################################
+             * 공지사항 수정정보 가져오기(상세보기 쿼리와 동일하여, 같은 서비스 쿼리 사용함)
+             * ###################################################################################
+             */
 
             if (rDTO == null) {
                 rDTO = new NoticeDTO();

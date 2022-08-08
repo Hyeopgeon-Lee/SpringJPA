@@ -3,9 +3,6 @@ package kopo.poly.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * JPA를 사용하면, 반드시 Setter 함수는 생성하지 않는다.
- */
 @Getter
 @Setter
 public class NoticeDTO {
@@ -22,6 +19,5 @@ public class NoticeDTO {
     private String chgDt; // 수정일
 
     private String userName; // 등록자명
-
 
 }

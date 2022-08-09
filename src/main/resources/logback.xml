@@ -4,7 +4,7 @@
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
     <!--로그 파일 저장장소-->
-    <property name="log_dir" value="/data/log/SpringBootOracle"/>
+    <property name="log_dir" value="/data/log/SpringJPA"/>
 
 
     <!--파일에 로그를 남깁니다.-->

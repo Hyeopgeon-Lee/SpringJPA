@@ -17,5 +17,6 @@ public class UserInfoDTO {
     private String regDt;
     private String chgId;
     private String chgDt;
+    private String roles;
 }
 

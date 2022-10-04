@@ -52,4 +52,7 @@ public class UserInfoEntity {
     @Column(name = "chg_dt")
     private String chgDt;
 
+    @Column(name = "roles") //권한 데이터는 ,를 구분자로 여러 개(예 : 관리자, 일반사용자) 정의 가능함
+    private String roles;
+
 }

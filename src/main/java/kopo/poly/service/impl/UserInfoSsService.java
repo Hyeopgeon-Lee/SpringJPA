@@ -1,36 +1,62 @@
 package kopo.poly.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import kopo.poly.auth.AuthInfo;
 import kopo.poly.dto.UserInfoDTO;
 import kopo.poly.repository.UserInfoRepository;
 import kopo.poly.repository.entity.UserInfoEntity;
-import kopo.poly.service.IUserInfoService;
+import kopo.poly.service.IUserInfoSsService;
 import kopo.poly.util.CmmUtil;
 import kopo.poly.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service("UserInfoService")
-public class UserInfoService implements IUserInfoService {
+@Service("CustomUserDetailService")
+public class UserInfoSsService implements IUserInfoSsService {
 
     // RequiredArgsConstructor 어노테이션으로 생성자를 자동 생성함
     // userInfoRepository 변수에 이미 메모리에 올라간 UserInfoRepository 객체를 넣어줌
     // 예전에는 autowired 어노테이션를 통해 설정했었지만, 이젠 생성자를 통해 객체 주입함
     private final UserInfoRepository userInfoRepository;
 
-    // Spring Security에서 제공하는 비밀번호 암호화 객체(해시 함수)
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    /**
+     * Spring Security에서 로그인 처리를 하기 위해 실행하는 함수
+     * Spring Security의 인증 기능을 사용하기 위해선 반드시 만들어야 하는 함수
+     * <p>
+     * Controller로부터 호출되지않고, Spring Security가 바로 호출함
+     * <p>
+     * 아이디로 검색하고, 검색한 결과를 기반으로 Spring Security가 비밀번호가 같은지 판단함
+     * <p>
+     * 아이디와 패스워드가 일치하지 않으면 자동으로 UsernameNotFoundException 발생시킴
+     *
+     * @param userId 사용자 아이디
+     */
+    @Override
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        log.info(this.getClass().getName() + ".loadUserByUsername Start!");
+
+        UserInfoEntity rEntity = userInfoRepository.findByUserId(userId)
+                .orElseThrow(() -> new UsernameNotFoundException(userId + " Not Found User"));
+
+        UserInfoDTO rDTO = new ObjectMapper().convertValue(rEntity, UserInfoDTO.class);
+
+        return new AuthInfo(rDTO);
+
+    }
 
     @Override
     public int insertUserInfo(UserInfoDTO pDTO) throws Exception {
 
-        // 회원가입 성공 : 1, 아이디 중복으로인한 가입 취소 : 2, 기타 에러 발생 : 0
-        int res = 0;
+        log.info(this.getClass().getName() + ".insertUserInfo Start!");
+
+        int res = 0; // 회원가입 성공 : 1, 아이디 중복으로인한 가입 취소 : 2, 기타 에러 발생 : 0
 
         String userId = CmmUtil.nvl(pDTO.getUserId()); // 아이디
         String userName = CmmUtil.nvl(pDTO.getUserName()); // 이름
@@ -38,6 +64,7 @@ public class UserInfoService implements IUserInfoService {
         String email = CmmUtil.nvl(pDTO.getEmail()); // 이메일
         String addr1 = CmmUtil.nvl(pDTO.getAddr1()); // 주소
         String addr2 = CmmUtil.nvl(pDTO.getAddr2()); // 상세주소
+        String roles = CmmUtil.nvl(pDTO.getRoles()); // 권한
 
         log.info("userId : " + userId);
         log.info("userName : " + userName);
@@ -45,6 +72,7 @@ public class UserInfoService implements IUserInfoService {
         log.info("email : " + email);
         log.info("addr1 : " + addr1);
         log.info("addr2 : " + addr2);
+        log.info("roles : " + roles);
 
         // 회원 가입 중복 방지를 위해 DB에서 데이터 조회
         Optional<UserInfoEntity> rEntity = userInfoRepository.findByUserId(userId);
@@ -57,10 +85,13 @@ public class UserInfoService implements IUserInfoService {
 
             // 회원가입을 위한 Entity 생성
             UserInfoEntity pEntity = UserInfoEntity.builder()
-                    .userId(userId).userName(userName)
-                    .password(bCryptPasswordEncoder.encode(password))
+                    .userId(userId)
+                    .userName(userName)
+                    .password(password)
                     .email(email)
-                    .addr1(addr1).addr2(addr2)
+                    .addr1(addr1)
+                    .addr2(addr2)
+                    .roles(roles)
                     .regId(userId).regDt(DateUtil.getDateTime("yyyy-MM-dd hh:mm:ss"))
                     .chgId(userId).chgDt(DateUtil.getDateTime("yyyy-MM-dd hh:mm:ss"))
                     .build();
@@ -84,33 +115,7 @@ public class UserInfoService implements IUserInfoService {
 
         }
 
-        return res;
-    }
-
-    /**
-     * 로그인을 위해 아이디와 비밀번호가 일치하는지 확인하기
-     *
-     * @param pDTO 로그인을 위한 회원아이디, 비밀번호
-     * @return 로그인된 회원아이디 정보
-     */
-    @Override
-    public int getUserLoginCheck(UserInfoDTO pDTO) throws Exception {
-
-        // 로그인 성공 : 1, 실패 : 0
-        int res = 0;
-
-        String userId = CmmUtil.nvl(pDTO.getUserId()); // 아이디
-        String password = CmmUtil.nvl(pDTO.getPassword()); // 비밀번호
-
-        log.info("userId : " + userId);
-        log.info("password : " + password);
-
-        // 로그인을 위해 아이디와 비밀번호가 일치하는지 확인하기 위한 mapper 호출하기
-        Optional<UserInfoEntity> rEntity = userInfoRepository.findByUserIdAndPassword(userId, password);
-
-        if (rEntity.isPresent()) {
-            res = 1;
-        }
+        log.info(this.getClass().getName() + ".insertUserInfo End!");
 
         return res;
     }

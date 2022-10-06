@@ -2,10 +2,7 @@
 <%@ page import="kopo.poly.util.CmmUtil" %>
 <%
     //Controller에 저장된 세션으로 로그인할때 생성됨
-    String SS_USER_ID = CmmUtil.nvl((String) session.getAttribute("SS_USER_ID"));
     String userName = CmmUtil.nvl((String) request.getAttribute("userName"));
-    String userId = CmmUtil.nvl((String) session.getAttribute("userId"));
-
 %>
 <!DOCTYPE html>
 <html lang="en">

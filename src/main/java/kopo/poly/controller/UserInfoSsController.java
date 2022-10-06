@@ -28,10 +28,6 @@ public class UserInfoSsController {
 
     // 생성자를 통해 스프링 시작할 때, 메모리에 저장된 객체를 데이터타입에 맞춰 저장하기
     // @Service 어노테이션을 통해 스프링 시작할 때, IUserInfoService 객체가 메모리에 저장됨
-//    private final IUserInfoService<UserInfoService> userInfoService;
-
-    // 생성자를 통해 스프링 시작할 때, 메모리에 저장된 객체를 데이터타입에 맞춰 저장하기
-    // @Service 어노테이션을 통해 스프링 시작할 때, IUserInfoService 객체가 메모리에 저장됨
     private final IUserInfoSsService userInfoSsService;
 
     // Spring Security에서 제공하는 비밀번호 암호화 객체(해시 함수)
@@ -107,7 +103,6 @@ public class UserInfoSsController {
              * #######################################################
              */
 
-
             //웹(회원정보 입력화면)에서 받는 정보를 저장할 변수를 메모리에 올리기
             pDTO = new UserInfoDTO();
 
@@ -125,7 +120,7 @@ public class UserInfoSsController {
             // 권한 부여(사용자)
             pDTO.setRoles(UserRole.USER.getValue());
 
-//            // 권한 부여(관리자)
+            // 권한 부여(관리자)
 //            pDTO.setRoles(UserRole.ADMIN.getValue());
             /*
              * #######################################################
@@ -175,7 +170,7 @@ public class UserInfoSsController {
 
         }
 
-        return "/user/UserRegSuccess";
+        return "/ss/UserRegSuccess";
     }
 
 
@@ -226,13 +221,4 @@ public class UserInfoSsController {
         return "/";
     }
 
-    @GetMapping(value = "loginUser")
-    public String loginUser(HttpServletRequest request, @AuthenticationPrincipal AuthInfo authInfo) {
-
-        log.info("dto userId : " + authInfo.getUserInfoDTO().getUserId());
-        log.info(authInfo.getUsername());
-        log.info(authInfo.getPassword());
-
-        return "redirect:/login";
-    }
 }

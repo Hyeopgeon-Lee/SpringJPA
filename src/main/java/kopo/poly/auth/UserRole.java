@@ -12,3 +12,4 @@ public enum UserRole {
 
     private String value;
 }
+

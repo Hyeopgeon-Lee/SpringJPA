@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service("CustomUserDetailService")
+@Service("UserInfoSsService")
 public class UserInfoSsService implements IUserInfoSsService {
 
     // RequiredArgsConstructor 어노테이션으로 생성자를 자동 생성함
@@ -42,13 +42,16 @@ public class UserInfoSsService implements IUserInfoSsService {
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         log.info(this.getClass().getName() + ".loadUserByUsername Start!");
 
+        // 로그인 요청한 사용자 아이디를 검색함
+        // SELECT * FROM USER_INFO WHERE USER_ID = 'hglee67'
         UserInfoEntity rEntity = userInfoRepository.findByUserId(userId)
                 .orElseThrow(() -> new UsernameNotFoundException(userId + " Not Found User"));
 
+        // rEntity 데이터를 DTO로 변환하기
         UserInfoDTO rDTO = new ObjectMapper().convertValue(rEntity, UserInfoDTO.class);
 
+        // 비밀번호가 맞는지 체크 및 권한 부여를 위해 rDTO를 UserDetails를 구현한 AuthInfo에 넣어주기
         return new AuthInfo(rDTO);
-
     }
 
     @Override

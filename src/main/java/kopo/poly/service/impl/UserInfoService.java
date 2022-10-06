@@ -8,7 +8,6 @@ import kopo.poly.util.CmmUtil;
 import kopo.poly.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,9 +21,6 @@ public class UserInfoService implements IUserInfoService {
     // userInfoRepository 변수에 이미 메모리에 올라간 UserInfoRepository 객체를 넣어줌
     // 예전에는 autowired 어노테이션를 통해 설정했었지만, 이젠 생성자를 통해 객체 주입함
     private final UserInfoRepository userInfoRepository;
-
-    // Spring Security에서 제공하는 비밀번호 암호화 객체(해시 함수)
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public int insertUserInfo(UserInfoDTO pDTO) throws Exception {
@@ -58,7 +54,7 @@ public class UserInfoService implements IUserInfoService {
             // 회원가입을 위한 Entity 생성
             UserInfoEntity pEntity = UserInfoEntity.builder()
                     .userId(userId).userName(userName)
-                    .password(bCryptPasswordEncoder.encode(password))
+                    .password(password)
                     .email(email)
                     .addr1(addr1).addr2(addr2)
                     .regId(userId).regDt(DateUtil.getDateTime("yyyy-MM-dd hh:mm:ss"))

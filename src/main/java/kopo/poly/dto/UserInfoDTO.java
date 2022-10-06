@@ -3,9 +3,11 @@ package kopo.poly.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class UserInfoDTO {
+public class UserInfoDTO implements Serializable {
 
     private String userId;
     private String userName;

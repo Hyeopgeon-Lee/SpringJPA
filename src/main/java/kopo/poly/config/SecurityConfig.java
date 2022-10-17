@@ -29,12 +29,13 @@ public class SecurityConfig {
         http.csrf().disable();
 
         http.authorizeHttpRequests(authz -> authz // 페이지 접속 권한 설정
-                                // USER 권한
-                                .antMatchers("/user/**", "/notice/**").hasAnyAuthority("ROLE_USER")
-
-                                // 관리자 권한
-                                .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
-//                        .anyRequest().authenticated() // 그외 나머지 url 요청은 인증된 사용자만 가능
+//                                // USER 권한
+//                                .antMatchers("/user/**", "/notice/**").hasAnyAuthority("ROLE_USER")
+//
+//                                // 관리자 권한
+//                                .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
+////                        .anyRequest().authenticated() // 그외 나머지 url 요청은 인증된 사용자만 가능
+//                                .antMatchers("/**").permitAll()
                                 .anyRequest().permitAll() // 그 외 나머지 url 요청은 인증 받지 않아도 접속 가능함
                 )
                 .formLogin(login -> login // 로그인 페이지 설정

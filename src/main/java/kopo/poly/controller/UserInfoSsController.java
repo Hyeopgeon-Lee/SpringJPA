@@ -2,6 +2,7 @@ package kopo.poly.controller;
 
 import kopo.poly.auth.AuthInfo;
 import kopo.poly.auth.UserRole;
+import kopo.poly.dto.MsgDTO;
 import kopo.poly.dto.UserInfoDTO;
 import kopo.poly.service.IUserInfoSsService;
 import kopo.poly.util.CmmUtil;
@@ -15,7 +16,9 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,22 +41,26 @@ public class UserInfoSsController {
      */
     @GetMapping(value = "userRegForm")
     public String userRegForm() {
-        log.info(this.getClass().getName() + ".user/userRegForm ok!");
+        log.info(this.getClass().getName() + ".user/userRegForm Start!");
 
-        return "/ss/UserRegForm";
+        log.info(this.getClass().getName() + ".user/userRegForm End!");
+
+        return "user/userRegForm";
     }
 
 
     /**
      * 회원가입 로직 처리
      */
-    @RequestMapping(value = "insertUserInfo")
-    public String insertUserInfo(HttpServletRequest request, ModelMap model) throws Exception {
+    @ResponseBody
+    @PostMapping(value = "insertUserInfo")
+    public MsgDTO insertUserInfo(HttpServletRequest request, ModelMap model) throws Exception {
 
         log.info(this.getClass().getName() + ".insertUserInfo start!");
 
-        //회원가입 결과에 대한 메시지를 전달할 변수
-        String msg = "";
+        int res = 0; // 회원가입 결과
+        String msg = ""; //회원가입 결과에 대한 메시지를 전달할 변수
+        MsgDTO dto = null; // 결과 메시지 구조
 
         //웹(회원정보 입력화면)에서 받는 정보를 저장할 변수
         UserInfoDTO pDTO = null;
@@ -133,7 +140,7 @@ public class UserInfoSsController {
             /*
              * 회원가입
              * */
-            int res = userInfoSsService.insertUserInfo(pDTO);
+            res = userInfoSsService.insertUserInfo(pDTO);
 
             log.info("회원가입 결과(res) : " + res);
 
@@ -156,60 +163,71 @@ public class UserInfoSsController {
             e.printStackTrace();
 
         } finally {
+            // 결과 메시지 전달하기
+            dto = new MsgDTO();
+            dto.setResult(res);
+            dto.setMsg(msg);
+
             log.info(this.getClass().getName() + ".insertUserInfo End!");
-
-
-            //회원가입 여부 결과 메시지 전달하기
-            model.addAttribute("msg", msg);
-
-            //회원가입 여부 결과 메시지 전달하기
-            model.addAttribute("pDTO", pDTO);
-
-            //변수 초기화(메모리 효율화 시키기 위해 사용함)
-            pDTO = null;
 
         }
 
-        return "/ss/UserRegSuccess";
+        return dto;
     }
 
 
     /**
      * 로그인을 위한 입력 화면으로 이동
      */
-    @GetMapping(value = "loginForm")
-    public String loginForm() {
-        log.info(this.getClass().getName() + ".user/loginForm ok!");
+    @GetMapping(value = "login")
+    public String login() {
+        log.info(this.getClass().getName() + ".user/login Start!");
 
-        return "/ss/LoginForm";
+        log.info(this.getClass().getName() + ".user/login End!");
+
+        return "user/login";
     }
 
+    @ResponseBody
     @RequestMapping(value = "loginSuccess")
-    public String loginSuccess(@AuthenticationPrincipal AuthInfo authInfo, ModelMap model) {
+    public MsgDTO loginSuccess(@AuthenticationPrincipal AuthInfo authInfo, ModelMap model) {
+
+        log.info(this.getClass().getName() + ".loginSuccess Start!");
 
         // Spring Security에 저장된 정보 가져오기
-        UserInfoDTO dto = authInfo.getUserInfoDTO();
+        UserInfoDTO rDTO = authInfo.getUserInfoDTO();
 
-        String userName = CmmUtil.nvl(dto.getUserName());
-        String userId = CmmUtil.nvl(dto.getUserId());
+        String userName = CmmUtil.nvl(rDTO.getUserName());
+        String userId = CmmUtil.nvl(rDTO.getUserId());
 
         log.info("userName :" + userName);
         log.info("userId :" + userId);
 
-        model.addAttribute("userName", userName);
-        model.addAttribute("userId", userId);
+        MsgDTO dto = new MsgDTO();
+        dto.setResult(1);
+        dto.setMsg("로그인 되었습니다.");
+        dto.setUserInfoDTO(rDTO); // Spring Security로부터 받은 회원정보 전달하기
 
-        return "/ss/LoginSuccess";
+        log.info(this.getClass().getName() + ".loginSuccess End!");
+
+        return dto;
 
     }
 
-
+    @ResponseBody
     @RequestMapping(value = "loginFail")
-    public String loginFail() {
-        return "/ss/LoginFail";
+    public MsgDTO loginFail() {
+
+        log.info(this.getClass().getName() + ".loginFail Start!");
+
+        MsgDTO dto = new MsgDTO();
+        dto.setResult(0);
+        dto.setMsg("로그인 실패하였습니다.");
+
+        log.info(this.getClass().getName() + ".loginFail End!");
+        return dto;
 
     }
-
 
     @GetMapping(value = "logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
@@ -218,7 +236,7 @@ public class UserInfoSsController {
         new SecurityContextLogoutHandler().logout(
                 request, response, SecurityContextHolder.getContext().getAuthentication());
 
-        return "/";
+        return "ss/logout";
     }
 
 }

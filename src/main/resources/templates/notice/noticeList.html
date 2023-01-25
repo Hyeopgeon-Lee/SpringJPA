@@ -29,15 +29,15 @@
     </div>
     <div class="divTableBody">
         <div class="divTableRow" th:each="dto: ${rList}">
-            <div class="divTableCell" th:if="${dto.notice_yn=='Y'}" th:text="공지사항"></div>
-            <div class="divTableCell" th:unless="${dto.notice_yn=='Y'}" th:text="${dto.notice_seq}"></div>
-            <div class="divTableCell" th:text="${dto.title}" th:onclick="doDetail([[${dto.notice_seq}]])"></div>
-            <div class="divTableCell" th:text="${dto.read_cnt}"></div>
-            <div class="divTableCell" th:text="${dto.user_name}"></div>
-            <div class="divTableCell" th:text="${dto.reg_dt}"></div>
+            <div class="divTableCell" th:if="${dto.noticeYn=='Y'}" th:text="공지사항"></div>
+            <div class="divTableCell" th:unless="${dto.noticeYn=='Y'}" th:text="${dto.noticeSeq}"></div>
+            <div class="divTableCell" th:text="${dto.title}" th:onclick="doDetail([[${dto.noticeSeq}]])"></div>
+            <div class="divTableCell" th:text="${dto.readCnt}"></div>
+            <div class="divTableCell" th:text="${dto.userName}"></div>
+            <div class="divTableCell" th:text="${dto.regDt}"></div>
         </div>
     </div>
 </div>
-<a href="/notice/noticeReg">[글쓰기]</a>
+<a href="/notice/noticeReg">글쓰기</a>
 </body>
 </html>

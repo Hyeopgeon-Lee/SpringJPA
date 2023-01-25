@@ -2,40 +2,31 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+
     <title>게시판 글보기</title>
     <link rel="stylesheet" href="/css/table.css"/>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
         const session_user_id = [[${session.SESSION_USER_ID}]]; // Controller에서 받은 세션에 저장된 값
-        const user_id = [[${rDTO.user_id}]]; // 공지사항 게시글 작성자 아이디
-        const nSeq = [[${rDTO.notice_seq}]]; // 현재 글번호, 자바에서 받을 변수들은 자바스크립트 변수로 저장하면 편함
+        const user_id = [[${rDTO.userId}]]; // 공지사항 게시글 작성자 아이디
+        const nSeq = [[${rDTO.noticeSeq}]]; // 현재 글번호, 자바에서 받을 변수들은 자바스크립트 변수로 저장하면 편함
 
         // HTML로딩이 완료되고, 실행됨
         $(document).ready(function () {
-
-            // html의 btnEdit id의 버튼 객체 가져오기
-            const btnEdit = document.getElementById("btnEdit"); // 수정 버튼
-
             // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
-            btnEdit.addEventListener("click", e => {
-                doEdit();
+            $("#btnEdit").on("click", function () {
+                doEdit(); // 공지사항 수정하기 실행
             })
 
-            // html의 btnDelete id의 버튼 객체 가져오기
-            const btnDelete = document.getElementById("btnDelete"); //삭제 버튼
-
             // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
-            btnDelete.addEventListener("click", e => {
-                doDelete();
+            $("#btnDelete").on("click", function () {
+                doDelete(); // 공지사항 수정하기 실행
             })
 
-            // html의 btnList id의 버튼 객체 가져오기
-            const btnList = document.getElementById("btnList"); //목록 버튼
-
             // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
-            btnList.addEventListener("click", e => {
-                doList();
+            $("#btnDelete").on("click", function () {
+                location.href = "/notice/noticeList"; // 공지사항 리스트 이동
             })
         })
 
@@ -82,11 +73,6 @@
             }
         }
 
-        //목록으로 이동
-        function doList() {
-            location.href = "/notice/noticeList";
-        }
-
         /*]]>*/
     </script>
 </head>
@@ -105,19 +91,19 @@
             <div class="divTableCell">공지글 여부
             </div>
             <div class="divTableCell">
-                예<input type="radio" name="notice_yn" th:checked="${rDTO.notice_yn eq 'Y'}"/>
-                아니오<input type="radio" name="notice_yn" th:checked="${rDTO.notice_yn eq 'N'}"/>
+                예<input type="radio" name="noticeYn" th:checked="${rDTO.noticeYn eq 'Y'}"/>
+                아니오<input type="radio" name="noticeYn" th:checked="${rDTO.noticeYn eq 'N'}"/>
             </div>
         </div>
         <div class="divTableRow">
             <div class="divTableCell">작성일
             </div>
-            <div class="divTableCell" th:text="${rDTO.reg_dt}"></div>
+            <div class="divTableCell" th:text="${rDTO.regDt}"></div>
         </div>
         <div class="divTableRow">
             <div class="divTableCell">조회수
             </div>
-            <div class="divTableCell" th:text="${rDTO.read_cnt}"></div>
+            <div class="divTableCell" th:text="${rDTO.readCnt}"></div>
         </div>
         <div class="divTableRow">
             <div class="divTableCell">내용
@@ -127,9 +113,10 @@
     </div>
 </div>
 <div>
-    <button id="btnEdit">[수정]</button>
-    <button id="btnDelete">[삭제]</button>
-    <button id="btnList">[목록]</button>
+    <button id="btnEdit" type="button">수정</button>
+    <button id="btnDelete" type="button">삭제</button>
+    <button id="btnList" type="button">목록</button>
 </div>
 </body>
 </html>
+

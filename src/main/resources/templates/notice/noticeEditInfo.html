@@ -9,15 +9,10 @@
 
         // HTML로딩이 완료되고, 실행됨
         $(document).ready(function () {
-
-            // html의 btnSend id의 버튼 객체 가져오기
-            const btnSend = document.getElementById("btnSend");
-
             // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
-            btnSend.addEventListener("click", e => {
+            $("#btnSend").on("click", function () {
                 doSubmit(); // 공지사항 수정하기 실행
             })
-
         })
 
         //글자 길이 바이트 단위로 체크하기(바이트값 전달)
@@ -53,15 +48,15 @@
                 return;
             }
             let noticeCheck = false; //체크 여부 확인 변수
-            for (let i = 0; i < f.notice_yn.length; i++) {
-                if (f.notice_yn[i].checked) {
+            for (let i = 0; i < f.noticeYn.length; i++) {
+                if (f.noticeYn[i].checked) {
                     noticeCheck = true;
                     break;
                 }
             }
             if (noticeCheck === false) {
                 alert("공지글 여부를 선택하시기 바랍니다.");
-                f.notice_yn[0].focus();
+                f.noticeYn[0].focus();
                 return;
             }
             if (f.contents.value === "") {
@@ -95,7 +90,7 @@
 <hr/>
 <br/>
 <form name="f" id="f">
-    <input type="hidden" name="nSeq" th:value="${rDTO.notice_seq}"/>
+    <input type="hidden" name="nSeq" th:value="${rDTO.noticeSeq}"/>
     <div class="divTable minimalistBlack">
         <div class="divTableBody">
             <div class="divTableRow">
@@ -110,14 +105,14 @@
                 <div class="divTableCell">공지글 여부
                 </div>
                 <div class="divTableCell">
-                    예<input type="radio" name="notice_yn" value="Y" th:checked="${rDTO.notice_yn eq 'Y'}"/>
-                    아니오<input type="radio" name="notice_yn" value="N" th:checked="${rDTO.notice_yn eq 'N'}"/>
+                    예<input type="radio" name="noticeYn" value="Y" th:checked="${rDTO.noticeYn eq 'Y'}"/>
+                    아니오<input type="radio" name="noticeYn" value="N" th:checked="${rDTO.noticeYn eq 'N'}"/>
                 </div>
             </div>
             <div class="divTableRow">
                 <div class="divTableCell">조회수
                 </div>
-                <div class="divTableCell" th:text="${rDTO.read_cnt}">
+                <div class="divTableCell" th:text="${rDTO.readCnt}">
                 </div>
             </div>
             <div class="divTableRow">
@@ -131,8 +126,8 @@
         </div>
     </div>
     <div>
-        <input type="button" id="btnSend" value="수정"/>
-        <input type="reset" value="다시 작성"/>
+        <button id="btnSend" type="button">수정</button>
+        <button type="reset">다시 작성</button>
     </div>
 </form>
 </body>

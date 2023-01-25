@@ -37,6 +37,6 @@ public interface INoticeService {
      *
      * @param pDTO 공지사항 저장하기 위한 정보
      */
-    void InsertNoticeInfo(NoticeDTO pDTO) throws Exception;
+    void insertNoticeInfo(NoticeDTO pDTO) throws Exception;
 
 }

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Slf4j
 @RequestMapping(value = "/ss")
@@ -45,7 +46,7 @@ public class UserInfoSsController {
 
         log.info(this.getClass().getName() + ".user/userRegForm End!");
 
-        return "user/userRegForm";
+        return "ss/userRegForm";
     }
 
 
@@ -185,12 +186,18 @@ public class UserInfoSsController {
 
         log.info(this.getClass().getName() + ".user/login End!");
 
-        return "user/login";
+        return "ss/login";
     }
 
+    /**
+     * Spring Security에서 로그인 성공하면, 호출함
+     *
+     * @param authInfo 인증정보
+     * @param session  로그인 정보 저장을 위한 세션 객체
+     */
     @ResponseBody
     @RequestMapping(value = "loginSuccess")
-    public MsgDTO loginSuccess(@AuthenticationPrincipal AuthInfo authInfo, ModelMap model) {
+    public MsgDTO loginSuccess(@AuthenticationPrincipal AuthInfo authInfo, HttpSession session) {
 
         log.info(this.getClass().getName() + ".loginSuccess Start!");
 
@@ -206,7 +213,9 @@ public class UserInfoSsController {
         MsgDTO dto = new MsgDTO();
         dto.setResult(1);
         dto.setMsg("로그인 되었습니다.");
-        dto.setUserInfoDTO(rDTO); // Spring Security로부터 받은 회원정보 전달하기
+
+        session.setAttribute("SS_USER_ID", userId); // 세션에 로그인 아이디 저장하기
+        session.setAttribute("SS_USER_NAME", userName); // 세션에 로그인 회원이름 저장하기
 
         log.info(this.getClass().getName() + ".loginSuccess End!");
 
@@ -214,6 +223,9 @@ public class UserInfoSsController {
 
     }
 
+    /**
+     * Spring Security에서 로그인 실패하면, 호출함
+     */
     @ResponseBody
     @RequestMapping(value = "loginFail")
     public MsgDTO loginFail() {
@@ -229,14 +241,35 @@ public class UserInfoSsController {
 
     }
 
+    /**
+     * 로그아웃 처리하기
+     */
     @GetMapping(value = "logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
+
+        log.info(this.getClass().getName() + ".logout Start!");
 
         // 로그아웃 처리하기
         new SecurityContextLogoutHandler().logout(
                 request, response, SecurityContextHolder.getContext().getAuthentication());
 
+        log.info(this.getClass().getName() + ".logout End!");
+
         return "ss/logout";
     }
+
+    /**
+     * 로그인 성공 결과 보여주기 화면 호출
+     */
+    @GetMapping(value = "loginResult")
+    public String loginResult(HttpServletRequest request) {
+
+        log.info(this.getClass().getName() + ".loginResult Start!");
+
+        log.info(this.getClass().getName() + ".loginResult End!");
+
+        return "ss/loginResult";
+    }
+
 
 }

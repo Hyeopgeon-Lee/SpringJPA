@@ -18,8 +18,7 @@
         //글자 길이 바이트 단위로 체크하기(바이트값 전달)
         function calBytes(str) {
             let tcount = 0;
-            let tmpStr = String(str);
-            let strCnt = tmpStr.length;
+            let tmpStr = String(str);            let strCnt = tmpStr.length;
             let onechar;
             for (let i = 0; i < strCnt; i++) {
                 onechar = tmpStr.charAt(i);
@@ -94,30 +93,26 @@
     <div class="divTable minimalistBlack">
         <div class="divTableBody">
             <div class="divTableRow">
-                <div class="divTableCell">제목
-                </div>
+                <div class="divTableCell">제목</div>
                 <div class="divTableCell">
                     <input type="text" name="title" maxlength="100" th:value="${rDTO.title}"
                            style="width: 95%"/>
                 </div>
             </div>
             <div class="divTableRow">
-                <div class="divTableCell">공지글 여부
-                </div>
+                <div class="divTableCell">공지글 여부</div>
                 <div class="divTableCell">
                     예<input type="radio" name="noticeYn" value="Y" th:checked="${rDTO.noticeYn eq 'Y'}"/>
                     아니오<input type="radio" name="noticeYn" value="N" th:checked="${rDTO.noticeYn eq 'N'}"/>
                 </div>
             </div>
             <div class="divTableRow">
-                <div class="divTableCell">조회수
-                </div>
+                <div class="divTableCell">조회수</div>
                 <div class="divTableCell" th:text="${rDTO.readCnt}">
                 </div>
             </div>
             <div class="divTableRow">
-                <div class="divTableCell">내용
-                </div>
+                <div class="divTableCell">내용</div>
                 <div class="divTableCell">
                     <textarea name="contents"
                               style="width: 95%; height: 400px" th:text="${rDTO.contents}"></textarea>
@@ -132,3 +127,4 @@
 </form>
 </body>
 </html>
+

@@ -176,7 +176,7 @@ public class UserInfoController {
      */
     @ResponseBody
     @PostMapping(value = "loginProc")
-    public MsgDTO loginProc(HttpSession session, HttpServletRequest request, ModelMap model) throws Exception {
+    public MsgDTO loginProc(HttpServletRequest request, HttpSession session) throws Exception {
 
         log.info(this.getClass().getName() + ".loginProc Start!");
 
@@ -271,7 +271,7 @@ public class UserInfoController {
                 msg = "로그인이 성공했습니다.";
                 session.setAttribute("SS_USER_ID", user_id);
 
-            }else{
+            } else {
                 msg = "아이디와 비밀번호가 올바르지 않습니다.";
 
             }
@@ -305,5 +305,21 @@ public class UserInfoController {
         log.info(this.getClass().getName() + ".user/loginSuccess End!");
 
         return "user/loginSuccess";
+    }
+
+    /**
+     * 로그아웃 처리하기
+     */
+    @GetMapping(value = "logout")
+    public String logout(HttpSession session) {
+
+        log.info(this.getClass().getName() + ".logout Start!");
+
+        session.setAttribute("SS_USER_ID", ""); // 세션 값 빈값으로 변경
+        session.removeAttribute("SS_USER_ID"); // 세션 값 지우기
+
+        log.info(this.getClass().getName() + ".logout End!");
+
+        return "ss/logout";
     }
 }

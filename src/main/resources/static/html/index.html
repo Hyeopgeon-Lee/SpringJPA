@@ -3,47 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>메인화면</title>
+    <link rel="stylesheet" href="/css/table.css"/>
     <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
 
-        // HTML로딩이 완료되고, 실행됨
+        // HTML 로딩이 완료되고, 실행됨
         $(document).ready(function () {
 
-            // html의 btnLogin id의 버튼 객체 가져오기
-            const btnLogin = document.getElementById("btnLogin");
-
-            // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
-            btnLogin.addEventListener("click", e => {
-                document.href = "/user/login";
+            // 일반 로그인
+            $("#btnLogin").on("click", function () { // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
+                location.href = "/user/login";
             })
 
-            // html의 btnLogin id의 버튼 객체 가져오기
-            const btnUserReg = document.getElementById("btnUserReg");
-
-            // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
-            btnUserReg.addEventListener("click", e => {
-                document.href = "/user/userRegForm";
+            // 일반 회원가입
+            $("#btnUserReg").on("click", function () { // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
+                location.href = "/user/userRegForm";
             })
 
-
-            // html의 btnLogin id의 버튼 객체 가져오기
-            const btnSSLogin = document.getElementById("btnSSLogin");
-
-            // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
-            btnSSLogin.addEventListener("click", e => {
-                document.href = "/ss/login";
+            // 스프링 시큐리티 로그인
+            $("#btnSSLogin").on("click", function () { // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
+                location.href = "/ss/login";
             })
 
-            // html의 btnLogin id의 버튼 객체 가져오기
-            const btnSSUserReg = document.getElementById("btnSSUserReg");
-
-            // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
-            btnSSUserReg.addEventListener("click", e => {
-                document.href = "/ss/userRegForm";
+            // 스프링 시큐리티 회원가입
+            $("#btnSSUserReg").on("click", function () { // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
+                location.href = "/ss/userRegForm";
             })
 
-
-
+            // 공지사항
+            $("#btnNotice").on("click", function () { // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
+                location.href = "/notice/noticeList";
+            })
         })
     </script>
 </head>
@@ -52,13 +42,21 @@
 <hr/>
 <br/>
 <div>
-    <input type="button" id="btnLogin" value="일반 로그인 화면 이동"/>
-    <input type="button" id="btnUserReg" value="일반 회원가입 화면 이동"/>
+    <button id="btnLogin" type="button">일반 로그인 화면 이동</button>
+    <button id="btnUserReg" type="button">일반 회원가입 화면 이동</button>
 </div>
 <br/>
 <div>
-    <input type="button" id="btnSSLogin" value="스프링 시큐리티 로그인 화면 이동"/>
-    <input type="button" id="btnSSUserReg" value="스프링 시큐리티 회원가입 화면 이동"/>
+    <div>
+        <button id="btnSSLogin" type="button">스프링 시큐리티 로그인 화면 이동</button>
+        <button id="btnSSUserReg" type="button">스프링 시큐리티 회원가입 화면 이동</button>
+    </div>
+</div>
+<br/>
+<div>
+    <div>
+        <button id="btnNotice" type="button">공지사항</button>
+    </div>
 </div>
 </body>
 </html>

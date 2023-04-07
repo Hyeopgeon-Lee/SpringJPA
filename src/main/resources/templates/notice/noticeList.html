@@ -33,7 +33,7 @@
             <div class="divTableCell" th:unless="${dto.noticeYn=='Y'}" th:text="${dto.noticeSeq}"></div>
             <div class="divTableCell" th:text="${dto.title}" th:onclick="doDetail([[${dto.noticeSeq}]])"></div>
             <div class="divTableCell" th:text="${dto.readCnt}"></div>
-            <div class="divTableCell" th:text="${dto.userName}"></div>
+            <div class="divTableCell" th:text="${dto.userId}"></div>
             <div class="divTableCell" th:text="${dto.regDt}"></div>
         </div>
     </div>

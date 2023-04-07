@@ -99,8 +99,8 @@ public class UserInfoSsController {
              *    무조건 웹으로 받은 정보는 DTO에 저장하기 위해 임시로 String 변수에 저장함
              * #######################################################
              */
-            String user_id = CmmUtil.nvl(request.getParameter("user_id")); //아이디
-            String user_name = CmmUtil.nvl(request.getParameter("user_name")); //이름
+            String userId = CmmUtil.nvl(request.getParameter("userId")); //아이디
+            String userName = CmmUtil.nvl(request.getParameter("userName")); //이름
             String password = CmmUtil.nvl(request.getParameter("password")); //비밀번호
             String email = CmmUtil.nvl(request.getParameter("email")); //이메일
             String addr1 = CmmUtil.nvl(request.getParameter("addr1")); //주소
@@ -119,8 +119,8 @@ public class UserInfoSsController {
              * 						반드시 작성할 것
              * #######################################################
              * */
-            log.info("user_id : " + user_id);
-            log.info("user_name : " + user_name);
+            log.info("userId : " + userId);
+            log.info("userName : " + userName);
             log.info("password : " + password);
             log.info("email : " + email);
             log.info("addr1 : " + addr1);
@@ -138,8 +138,8 @@ public class UserInfoSsController {
             //웹(회원정보 입력화면)에서 받는 정보를 저장할 변수를 메모리에 올리기
             pDTO = new UserInfoDTO();
 
-            pDTO.setUserId(user_id);
-            pDTO.setUserName(user_name);
+            pDTO.setUserId(userId);
+            pDTO.setUserName(userName);
 
             //비밀번호는 Spring Security에서 제공하는 해시 암호화 수행
             pDTO.setPassword(bCryptPasswordEncoder.encode(password));
@@ -268,8 +268,9 @@ public class UserInfoSsController {
     /**
      * 로그아웃 처리하기
      */
-    @GetMapping(value = "logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
+    @ResponseBody
+    @PostMapping(value = "logout")
+    public MsgDTO logout(HttpServletRequest request, HttpServletResponse response) {
 
         log.info(this.getClass().getName() + ".logout Start!");
 
@@ -277,9 +278,13 @@ public class UserInfoSsController {
         new SecurityContextLogoutHandler().logout(
                 request, response, SecurityContextHolder.getContext().getAuthentication());
 
+        MsgDTO dto = new MsgDTO();
+        dto.setResult(1);
+        dto.setMsg("로그아웃하였습니다.");
+
         log.info(this.getClass().getName() + ".logout End!");
 
-        return "ss/logout";
+        return dto;
     }
 
     /**

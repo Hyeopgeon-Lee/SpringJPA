@@ -286,16 +286,21 @@ public class UserInfoController {
     /**
      * 로그아웃 처리하기
      */
-    @GetMapping(value = "logout")
-    public String logout(HttpSession session) {
+    @ResponseBody
+    @PostMapping(value = "logout")
+    public MsgDTO logout(HttpSession session) {
 
         log.info(this.getClass().getName() + ".logout Start!");
 
         session.setAttribute("SS_USER_ID", ""); // 세션 값 빈값으로 변경
         session.removeAttribute("SS_USER_ID"); // 세션 값 지우기
 
+        MsgDTO dto = new MsgDTO();
+        dto.setResult(1);
+        dto.setMsg("로그아웃하였습니다.");
+
         log.info(this.getClass().getName() + ".logout End!");
 
-        return "ss/logout";
+        return dto;
     }
 }

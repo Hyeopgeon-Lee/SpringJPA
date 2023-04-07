@@ -20,16 +20,6 @@
                 location.href = "/user/userRegForm";
             })
 
-            // 스프링 시큐리티 로그인
-            $("#btnSSLogin").on("click", function () { // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
-                location.href = "/ss/login";
-            })
-
-            // 스프링 시큐리티 회원가입
-            $("#btnSSUserReg").on("click", function () { // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
-                location.href = "/ss/userRegForm";
-            })
-
             // 공지사항
             $("#btnNotice").on("click", function () { // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
                 location.href = "/notice/noticeList";
@@ -41,21 +31,29 @@
 <h2>프로젝트 첫 화면!(메인화면입니다.)</h2>
 <hr/>
 <br/>
-<div>
-    <button id="btnLogin" type="button">일반 로그인 화면 이동</button>
-    <button id="btnUserReg" type="button">일반 회원가입 화면 이동</button>
-</div>
-<br/>
-<div>
-    <div>
-        <button id="btnSSLogin" type="button">스프링 시큐리티 로그인 화면 이동</button>
-        <button id="btnSSUserReg" type="button">스프링 시큐리티 회원가입 화면 이동</button>
-    </div>
-</div>
-<br/>
-<div>
-    <div>
-        <button id="btnNotice" type="button">공지사항</button>
+<div class="divTable minimalistBlack">
+    <div class="divTableBody">
+        <div class="divTableRow">
+            <div class="divTableCell">일반 로그인
+            </div>
+            <div class="divTableCell">
+                <button id="btnLogin" type="button">일반 로그인 화면 이동</button>
+            </div>
+        </div>
+        <div class="divTableRow">
+            <div class="divTableCell">일반 회원가입
+            </div>
+            <div class="divTableCell">
+                <button id="btnUserReg" type="button">일반 회원가입 화면 이동</button>
+            </div>
+        </div>
+        <div class="divTableRow">
+            <div class="divTableCell">공지사항
+            </div>
+            <div class="divTableCell">
+                <button id="btnNotice" type="button">공지사항</button>
+            </div>
+        </div>
     </div>
 </div>
 </body>

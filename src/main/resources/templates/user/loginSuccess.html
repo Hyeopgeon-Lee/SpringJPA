@@ -13,6 +13,26 @@
             $("#btnSend").on("click", function () {
                 location.href = "/html/index.html";
             })
+
+            // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
+            $("#btnLogout").on("click", function () {
+                // Ajax 호출해서 로그인하기
+                $.ajax({
+                    url: "/user/logout",
+                    type: "post", // 전송방식은 Post
+                    dataType: "JSON", // 전송 결과는 JSON으로 받기
+                    success: function (json) {
+
+                        if (json.result === 1) { // 로그아웃 성공
+                            alert(json.msg); // 메시지 띄우기
+                            location.href = "/html/index.html"; // 메인화면으로 이동
+
+                        } else { // 로그인 실패
+                            alert(json.msg); // 메시지 띄우기
+                        }
+                    }
+                })
+            })
         })
     </script>
 </head>
@@ -29,6 +49,7 @@
 <div></div>
 <br/><br/>
 <button id="btnSend" type="button">메인 화면 이동</button>
+<button id="btnLogout" type="button">로그아웃</button>
 </body>
 </html>
 

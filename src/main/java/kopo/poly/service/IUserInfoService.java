@@ -27,6 +27,6 @@ public interface IUserInfoService {
      * @param pDTO 로그인을 위한 회원정보
      * @return 회원가입 결과
      */
-    int getUserLoginCheck(UserInfoDTO pDTO) throws Exception;
+    int getUserLogin(UserInfoDTO pDTO) throws Exception;
 }
 

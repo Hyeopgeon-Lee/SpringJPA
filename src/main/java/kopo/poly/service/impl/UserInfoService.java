@@ -121,7 +121,7 @@ public class UserInfoService implements IUserInfoService {
      * @return 로그인된 회원아이디 정보
      */
     @Override
-    public int getUserLoginCheck(UserInfoDTO pDTO) throws Exception {
+    public int getUserLogin(UserInfoDTO pDTO) throws Exception {
 
         log.info(this.getClass().getName() + ".getUserLoginCheck Start!");
 

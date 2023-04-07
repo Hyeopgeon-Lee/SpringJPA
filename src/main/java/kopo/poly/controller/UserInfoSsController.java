@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Slf4j
 @RequestMapping(value = "/ss")
@@ -49,6 +50,29 @@ public class UserInfoSsController {
         return "ss/userRegForm";
     }
 
+    /**
+     * 회원 가입 전 아이디 중복체크하기(Ajax를 통해 입력한 아이디 정보 받음)
+     */
+    @ResponseBody
+    @PostMapping(value = "getUserIdExists")
+    public UserInfoDTO getUserExists(HttpServletRequest request) throws Exception {
+
+        log.info(this.getClass().getName() + ".getUserIdExists Start!");
+
+        String userId = CmmUtil.nvl(request.getParameter("userId")); // 회원아이디
+
+        log.info("userId : " + userId);
+
+        UserInfoDTO pDTO = new UserInfoDTO();
+        pDTO.setUserId(userId);
+
+        // 회원아이디를 통해 중복된 아이디인지 조회
+        UserInfoDTO rDTO = Optional.ofNullable(userInfoSsService.getUserIdExists(pDTO)).orElseGet(UserInfoDTO::new);
+
+        log.info(this.getClass().getName() + ".getUserIdExists End!");
+
+        return rDTO;
+    }
 
     /**
      * 회원가입 로직 처리

@@ -55,6 +55,33 @@ public class UserInfoSsService implements IUserInfoSsService {
     }
 
     @Override
+    public UserInfoDTO getUserIdExists(UserInfoDTO pDTO) throws Exception {
+
+        log.info(this.getClass().getName() + ".getUserIdExists Start!");
+
+        UserInfoDTO rDTO = new UserInfoDTO();
+
+        String userId = CmmUtil.nvl(pDTO.getUserId()); // 아이디
+
+        log.info("userId : " + userId);
+
+        // 회원 가입 중복 방지를 위해 DB에서 데이터 조회
+        Optional<UserInfoEntity> rEntity = userInfoRepository.findByUserId(userId);
+
+        // 값이 존재한다면... (이미 회원가입된 아이디)
+        if (rEntity.isPresent()) {
+            rDTO.setExistsYn("Y"); // 아이디 중복
+
+        } else {
+            rDTO.setExistsYn("N"); // 아이디 중복안됨
+        }
+
+        log.info(this.getClass().getName() + ".getUserIdExists End!");
+
+        return rDTO;
+    }
+
+    @Override
     public int insertUserInfo(UserInfoDTO pDTO) throws Exception {
 
         log.info(this.getClass().getName() + ".insertUserInfo Start!");

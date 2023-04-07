@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface IUserInfoSsService extends UserDetailsService {
 
+    UserInfoDTO getUserIdExists(UserInfoDTO pDTO) throws Exception;
+    
     // 회원 가입하기(회원정보 등록하기)
     int insertUserInfo(UserInfoDTO pDTO) throws Exception;
 

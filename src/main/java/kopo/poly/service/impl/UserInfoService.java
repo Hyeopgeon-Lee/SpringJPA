@@ -23,7 +23,36 @@ public class UserInfoService implements IUserInfoService {
     private final UserInfoRepository userInfoRepository;
 
     @Override
+    public UserInfoDTO getUserIdExists(UserInfoDTO pDTO) throws Exception {
+
+        log.info(this.getClass().getName() + ".getUserIdExists Start!");
+
+        UserInfoDTO rDTO = new UserInfoDTO();
+
+        String userId = CmmUtil.nvl(pDTO.getUserId()); // 아이디
+
+        log.info("userId : " + userId);
+
+        // 회원 가입 중복 방지를 위해 DB에서 데이터 조회
+        Optional<UserInfoEntity> rEntity = userInfoRepository.findByUserId(userId);
+
+        // 값이 존재한다면... (이미 회원가입된 아이디)
+        if (rEntity.isPresent()) {
+            rDTO.setExistsYn("Y"); // 아이디 중복
+
+        } else {
+            rDTO.setExistsYn("N"); // 아이디 중복안됨
+        }
+
+        log.info(this.getClass().getName() + ".getUserIdExists End!");
+
+        return rDTO;
+    }
+
+    @Override
     public int insertUserInfo(UserInfoDTO pDTO) throws Exception {
+
+        log.info(this.getClass().getName() + ".insertUserInfo Start!");
 
         // 회원가입 성공 : 1, 아이디 중복으로인한 가입 취소 : 2, 기타 에러 발생 : 0
         int res = 0;
@@ -80,6 +109,8 @@ public class UserInfoService implements IUserInfoService {
 
         }
 
+        log.info(this.getClass().getName() + ".insertUserInfo End!");
+
         return res;
     }
 
@@ -91,6 +122,8 @@ public class UserInfoService implements IUserInfoService {
      */
     @Override
     public int getUserLoginCheck(UserInfoDTO pDTO) throws Exception {
+
+        log.info(this.getClass().getName() + ".getUserLoginCheck Start!");
 
         // 로그인 성공 : 1, 실패 : 0
         int res = 0;
@@ -107,6 +140,8 @@ public class UserInfoService implements IUserInfoService {
         if (rEntity.isPresent()) {
             res = 1;
         }
+
+        log.info(this.getClass().getName() + ".getUserLoginCheck End!");
 
         return res;
     }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Slf4j
 @RequestMapping(value = "/user")
@@ -38,6 +39,30 @@ public class UserInfoController {
         return "user/userRegForm";
     }
 
+
+    /**
+     * 회원 가입 전 아이디 중복체크하기(Ajax를 통해 입력한 아이디 정보 받음)
+     */
+    @ResponseBody
+    @PostMapping(value = "getUserIdExists")
+    public UserInfoDTO getUserExists(HttpServletRequest request) throws Exception {
+
+        log.info(this.getClass().getName() + ".getUserIdExists Start!");
+
+        String userId = CmmUtil.nvl(request.getParameter("userId")); // 회원아이디
+
+        log.info("userId : " + userId);
+
+        UserInfoDTO pDTO = new UserInfoDTO();
+        pDTO.setUserId(userId);
+
+        // 회원아이디를 통해 중복된 아이디인지 조회
+        UserInfoDTO rDTO = Optional.ofNullable(userInfoService.getUserIdExists(pDTO)).orElseGet(UserInfoDTO::new);
+
+        log.info(this.getClass().getName() + ".getUserIdExists End!");
+
+        return rDTO;
+    }
 
     /**
      * 회원가입 로직 처리
@@ -93,12 +118,11 @@ public class UserInfoController {
 
             /*
              * #######################################################
-             *        웹(회원정보 입력화면)에서 받는 정보를 DTO에 저장하기 시작!!
+             *        웹(회원정보 입력화면)에서 받는 정보를 DTO에 저장하기
              *
              *        무조건 웹으로 받은 정보는 DTO에 저장해야 한다고 이해하길 권함
              * #######################################################
              */
-
             //웹(회원정보 입력화면)에서 받는 정보를 저장할 변수를 메모리에 올리기
             pDTO = new UserInfoDTO();
 
@@ -113,17 +137,7 @@ public class UserInfoController {
             pDTO.setAddr1(addr1);
             pDTO.setAddr2(addr2);
 
-            /*
-             * #######################################################
-             *        웹(회원정보 입력화면)에서 받는 정보를 DTO에 저장하기 끝!!
-             *
-             *        무조건 웹으로 받은 정보는 DTO에 저장해야 한다고 이해하길 권함
-             * #######################################################
-             */
-
-            /*
-             * 회원가입
-             * */
+            // 회원가입 서비스 호출하여 결과 받기
             res = userInfoService.insertUserInfo(pDTO);
 
             log.info("회원가입 결과(res) : " + res);
@@ -189,42 +203,11 @@ public class UserInfoController {
 
         try {
 
-            /*
-             * ########################################################################
-             *        웹(회원정보 입력화면)에서 받는 정보를 String 변수에 저장 시작!!
-             *
-             *    무조건 웹으로 받은 정보는 DTO에 저장하기 위해 임시로 String 변수에 저장함
-             * ########################################################################
-             */
-
             String user_id = CmmUtil.nvl(request.getParameter("user_id")); //아이디
             String password = CmmUtil.nvl(request.getParameter("password")); //비밀번호
 
-            /*
-             * ########################################################################
-             *        웹(회원정보 입력화면)에서 받는 정보를 String 변수에 저장 끝!!
-             *
-             *    무조건 웹으로 받은 정보는 DTO에 저장하기 위해 임시로 String 변수에 저장함
-             * ########################################################################
-             */
-
-            /*
-             * ########################################################################
-             * 	 반드시, 값을 받았으면, 꼭 로그를 찍어서 값이 제대로 들어오는지 파악해야함
-             * 						반드시 작성할 것
-             * ########################################################################
-             * */
             log.info("user_id : " + user_id);
             log.info("password : " + password);
-
-            /*
-             * ########################################################################
-             *        웹(회원정보 입력화면)에서 받는 정보를 DTO에 저장하기 시작!!
-             *
-             *        무조건 웹으로 받은 정보는 DTO에 저장해야 한다고 이해하길 권함
-             * ########################################################################
-             */
-
 
             //웹(회원정보 입력화면)에서 받는 정보를 저장할 변수를 메모리에 올리기
             pDTO = new UserInfoDTO();
@@ -234,18 +217,11 @@ public class UserInfoController {
             //비밀번호는 절대로 복호화되지 않도록 해시 알고리즘으로 암호화함
             pDTO.setPassword(EncryptUtil.encHashSHA256(password));
 
-            /*
-             * ########################################################################
-             *        웹(회원정보 입력화면)에서 받는 정보를 DTO에 저장하기 끝!!
-             *
-             *        무조건 웹으로 받은 정보는 DTO에 저장해야 한다고 이해하길 권함
-             * ########################################################################
-             */
-
             // 로그인을 위해 아이디와 비밀번호가 일치하는지 확인하기 위한 userInfoService 호출하기
             res = userInfoService.getUserLoginCheck(pDTO);
 
             log.info("res : " + res);
+
             /*
              * 로그인을 성공했다면, 회원아이디 정보를 session에 저장함
              *

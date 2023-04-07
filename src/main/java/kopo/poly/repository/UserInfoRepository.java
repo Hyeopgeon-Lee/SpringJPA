@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserInfoRepository extends JpaRepository<UserInfoEntity, Long> {
+public interface UserInfoRepository extends JpaRepository<UserInfoEntity, String> {
 
     // 회원 존재 여부 체크
     // java.util.Optional 객체는 자바의 NullPointer 에러에 대응하기 위해 1.8버전부터 추가된 자바 객체
@@ -20,3 +20,4 @@ public interface UserInfoRepository extends JpaRepository<UserInfoEntity, Long> 
     Optional<UserInfoEntity> findByUserIdAndPassword(String userId, String password);
 
 }
+

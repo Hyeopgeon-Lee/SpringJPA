@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service("NoticeService")
 public class NoticeService implements INoticeService {
-    
+
     // RequiredArgsConstructor 어노테이션으로 생성자를 자동 생성함
     // noticeRepository 변수에 이미 메모리에 올라간 NoticeRepository 객체를 넣어줌
     // 예전에는 autowired 어노테이션를 통해 설정했었지만, 이젠 생성자를 통해 객체 주입함
@@ -49,7 +49,7 @@ public class NoticeService implements INoticeService {
 
         log.info(this.getClass().getName() + ".getNoticeInfo Start!");
 
-        if (type){
+        if (type) {
             // 조회수 증가하기
             int res = noticeRepository.updateReadCnt(pDTO.getNoticeSeq());
 

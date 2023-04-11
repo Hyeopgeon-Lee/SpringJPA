@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service("UserInfoService")
+@Service
 public class UserInfoService implements IUserInfoService {
 
     // RequiredArgsConstructor 어노테이션으로 생성자를 자동 생성함

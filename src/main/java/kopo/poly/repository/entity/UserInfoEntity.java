@@ -18,26 +18,26 @@ import javax.persistence.*;
 public class UserInfoEntity {
 
     @Id
-    @Column(name = "USER_ID")
+    @Column(name = "user_id")
     private String userId;
 
     @NonNull
-    @Column(name = "USER_NAME", length = 500, nullable = false)
+    @Column(name = "user_name", length = 500, nullable = false)
     private String userName;
 
     @NonNull
-    @Column(name = "PASSWORD", length = 1, nullable = false)
+    @Column(name = "password", length = 1, nullable = false)
     private String password;
 
     @NonNull
-    @Column(name = "EMAIL", nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
     @NonNull
-    @Column(name = "ADDR1", nullable = false)
+    @Column(name = "addr1", nullable = false)
     private String addr1;
 
-    @Column(name = "ADDR2", nullable = false)
+    @Column(name = "addr2", nullable = false)
     private String addr2;
 
     @Column(name = "reg_id", updatable = false)

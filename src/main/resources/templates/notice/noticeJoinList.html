@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>공지 리스트</title>
+    <link rel="stylesheet" href="/css/table.css"/>
+    <script type="text/javascript">
+
+        //상세보기 이동
+        function doDetail(seq) {
+            location.href = "/notice/noticeInfo?nSeq=" + seq;
+        }
+
+    </script>
+</head>
+<body>
+<h2>공지사항</h2>
+<hr/>
+<br/>
+<div class="divTable minimalistBlack">
+    <div class="divTableHeading">
+        <div class="divTableRow">
+            <div class="divTableHead">순번</div>
+            <div class="divTableHead">제목</div>
+            <div class="divTableHead">조회수</div>
+            <div class="divTableHead">등록자</div>
+            <div class="divTableHead">등록일</div>
+        </div>
+    </div>
+    <div class="divTableBody">
+        <div class="divTableRow" th:each="dto: ${rList}">
+            <div class="divTableCell" th:if="${dto.noticeYn=='Y'}" th:text="공지사항"></div>
+            <div class="divTableCell" th:unless="${dto.noticeYn=='Y'}" th:text="${dto.noticeSeq}"></div>
+            <div class="divTableCell" th:text="${dto.title}" th:onclick="doDetail([[${dto.noticeSeq}]])"></div>
+            <div class="divTableCell" th:text="${dto.readCnt}"></div>
+            <div class="divTableCell" th:text="${dto.userName}"></div>
+            <div class="divTableCell" th:text="${dto.regDt}"></div>
+        </div>
+    </div>
+</div>
+<a href="/notice/noticeReg">글쓰기</a>
+</body>
+</html>

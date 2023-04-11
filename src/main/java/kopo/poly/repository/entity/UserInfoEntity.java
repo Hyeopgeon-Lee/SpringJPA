@@ -5,6 +5,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @Builder
 @Cacheable
 @Entity
-public class UserInfoEntity {
+public class UserInfoEntity implements Serializable {
 
     @Id
     @Column(name = "user_id")

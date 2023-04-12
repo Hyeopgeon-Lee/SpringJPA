@@ -28,5 +28,6 @@ public interface IUserInfoService {
      * @return 회원가입 결과
      */
     int getUserLogin(UserInfoDTO pDTO) throws Exception;
+
 }
 

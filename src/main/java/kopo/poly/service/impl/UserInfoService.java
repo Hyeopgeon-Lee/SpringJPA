@@ -145,5 +145,4 @@ public class UserInfoService implements IUserInfoService {
 
         return res;
     }
-
 }

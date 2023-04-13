@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kopo.poly.dto.NoticeDTO;
 import kopo.poly.repository.NoticeJoinRepository;
+import kopo.poly.repository.NoticeRepository;
 import kopo.poly.repository.UserInfoRepository;
 import kopo.poly.repository.entity.NoticeEntity;
 import kopo.poly.repository.entity.NoticeJoinEntity;
@@ -23,22 +24,24 @@ import java.util.Optional;
 @Service
 public class NoticeJoinService implements INoticeJoinService {
 
-    private final NoticeJoinRepository noticeJoinRepository; // 조인 적용된 공지사항
+    private final NoticeRepository noticeRepository; // NativeQuery 사용을 위한 Repository
+
+    private final NoticeJoinRepository noticeJoinRepository; // @JoinColumn 적용된 공지사항
 
     private final UserInfoRepository userInfoRepository; // 회원정보
 
     @Override
     public List<NoticeDTO> getNoticeListUsingJoinColumn() {
-        log.info(this.getClass().getName() + ".getNoticeList Start!");
+        log.info(this.getClass().getName() + ".getNoticeListUsingJoinColumn Start!");
 
         // 공지사항 전체 리스트 조회하기
         List<NoticeJoinEntity> rList = noticeJoinRepository.findAllByOrderByNoticeSeqDesc();
 
-        List<NoticeDTO> list = new LinkedList<>();
+        List<NoticeDTO> list = new LinkedList<>(); // 조회 결과를 List<NoticeDTO> 변환하기 위해 사용
 
-        for (NoticeJoinEntity rEntity : rList) {
+        rList.forEach(rEntity -> { // 람다식 사용
 
-            NoticeDTO rDTO = new NoticeDTO();
+            NoticeDTO rDTO = new NoticeDTO(); // DTO에 저장하기 위해 메모리 올리기
 
             // Entity 결과를 DTO 저장하기위해 결과 변수를 담기
             long noticeSeq = rEntity.getNoticeSeq(); // 공지사항 순번 PK
@@ -65,28 +68,29 @@ public class NoticeJoinService implements INoticeJoinService {
             rDTO.setUserName(userName); // 조인을 통해 가져온 작성자 이름
             rDTO.setRegDt(regDt); // 작성일
 
-            list.add(rDTO);
+            list.add(rDTO); // 레코드마다 추가하기
 
             rDTO = null;
-        }
 
-        log.info(this.getClass().getName() + ".getNoticeList End!");
+        });
+
+        log.info(this.getClass().getName() + ".getNoticeListUsingJoinColumn End!");
 
         return list;
     }
 
     @Override
     public List<NoticeDTO> getNoticeListUsingEntity() {
-        log.info(this.getClass().getName() + ".getNoticeList Start!");
+        log.info(this.getClass().getName() + ".getNoticeListUsingEntity Start!");
 
         // 공지사항 전체 리스트 조회하기
         List<NoticeJoinEntity> rList = noticeJoinRepository.findAllByOrderByNoticeSeqDesc();
 
         List<NoticeDTO> list = new LinkedList<>();
 
-        for (NoticeJoinEntity rEntity : rList) {
+        rList.forEach(rEntity -> { // 람다식 사용
 
-            NoticeDTO rDTO = new NoticeDTO();
+            NoticeDTO rDTO = new NoticeDTO(); // DTO에 저장하기 위해 메모리 올리기
 
             // Entity 결과를 DTO 저장하기위해 결과 변수를 담기
             long noticeSeq = rEntity.getNoticeSeq(); // 공지사항 순번 PK
@@ -123,26 +127,27 @@ public class NoticeJoinService implements INoticeJoinService {
             list.add(rDTO);
 
             rDTO = null;
-        }
 
-        log.info(this.getClass().getName() + ".getNoticeList End!");
+        });
+
+        log.info(this.getClass().getName() + ".getNoticeListUsingEntity End!");
 
         return list;
     }
 
     @Override
     public List<NoticeDTO> getNoticeListUsingNativeQuery() {
-        log.info(this.getClass().getName() + ".getNoticeList Start!");
+        log.info(this.getClass().getName() + ".getNoticeListUsingNativeQuery Start!");
 
         // 공지사항 전체 리스트 조회하기
-        List<NoticeEntity> rList = noticeJoinRepository.getNoticeListUsingSQL();
+        List<NoticeEntity> rList = noticeRepository.getNoticeListUsingSQL();
 
         // 엔티티의 값들을 DTO에 맞게 넣어주기
         List<NoticeDTO> nList = new ObjectMapper().convertValue(rList,
                 new TypeReference<List<NoticeDTO>>() {
                 });
 
-        log.info(this.getClass().getName() + ".getNoticeList End!");
+        log.info(this.getClass().getName() + ".getNoticeListUsingNativeQuery End!");
 
         return nList;
     }

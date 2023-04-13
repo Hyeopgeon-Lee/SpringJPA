@@ -75,9 +75,10 @@ public class NoticeController {
     }
 
     /**
-     * 게시판 리스트 보여주기
+     * JoinColumn 어노테이션을 활용한 공지사항 전체 가져오기
      * <p>
-     * GetMapping(value = "notice/noticeListUsingJoinColumn") =>  GET방식을 통해 접속되는 URL이 notice/noticeList 경우 아래 함수를 실행함
+     * GetMapping(value = "notice/noticeListUsingJoinColumn") =>
+     * GET 방식을 통해 접속되는 URL이 notice/noticeListUsingJoinColumn 경우 아래 함수를 실행함
      */
     @GetMapping(value = "noticeListUsingJoinColumn")
     public String noticeListUsingJoinColumn(ModelMap model)
@@ -104,9 +105,10 @@ public class NoticeController {
     }
 
     /**
-     * 게시판 리스트 보여주기
+     * 조회된 레코드 한줄마다 UserInfoEntity 조회하여 공지사항 전체 가져오기
      * <p>
-     * GetMapping(value = "notice/noticeJoinList") =>  GET방식을 통해 접속되는 URL이 notice/noticeList 경우 아래 함수를 실행함
+     * GetMapping(value = "notice/noticeListUsingEntity") =>
+     * GET 방식을 통해 접속되는 URL이 notice/noticeListUsingEntity 경우 아래 함수를 실행함
      */
     @GetMapping(value = "noticeListUsingEntity")
     public String noticeListUsingEntity(ModelMap model)
@@ -133,9 +135,10 @@ public class NoticeController {
     }
 
     /**
-     * 게시판 리스트 보여주기
+     * NativeQuery 사용하여 공지사항 전체 가져오기
      * <p>
-     * GetMapping(value = "notice/noticeJoinList") =>  GET방식을 통해 접속되는 URL이 notice/noticeList 경우 아래 함수를 실행함
+     * GetMapping(value = "notice/noticeListUsingNativeQuery") =>
+     * GET 방식을 통해 접속되는 URL이 notice/noticeListUsingNativeQuery 경우 아래 함수를 실행함
      */
     @GetMapping(value = "noticeListUsingNativeQuery")
     public String noticeListUsingNativeQuery(ModelMap model)

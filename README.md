@@ -8,6 +8,7 @@ Spring Boot Framworks, Spring Data JPA, Spring Session, Spring Security 연동 �
 주요 실습 내용
 1. MariaDB 기반 Spring Data JPA 서비스 구현
 2. ehcache를 활용한 JPA 2차 캐시 실습
+3. JPA 조인 실습(@Join 어노테이션 방식, Entity 조회 방식, NativeQuery 방식)
 3. IaaS 환경에서의 프로젝트 구현을 위한 RedisDB + Spring Session 적용
 4. Spring Security 적용한 회원가입, 로그인 구현
 5. RedisDB + Spring Session + Spring Security 적용

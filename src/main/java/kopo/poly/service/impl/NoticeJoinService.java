@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kopo.poly.dto.NoticeDTO;
 import kopo.poly.repository.NoticeJoinRepository;
-import kopo.poly.repository.NoticeRepository;
+import kopo.poly.repository.NoticeSQLRepository;
 import kopo.poly.repository.UserInfoRepository;
-import kopo.poly.repository.entity.NoticeEntity;
 import kopo.poly.repository.entity.NoticeJoinEntity;
+import kopo.poly.repository.entity.NoticeSQLEntity;
 import kopo.poly.repository.entity.UserInfoEntity;
 import kopo.poly.service.INoticeJoinService;
 import kopo.poly.util.CmmUtil;
@@ -24,7 +24,7 @@ import java.util.Optional;
 @Service
 public class NoticeJoinService implements INoticeJoinService {
 
-    private final NoticeRepository noticeRepository; // NativeQuery 사용을 위한 Repository
+    private final NoticeSQLRepository noticeSQLRepository; // NativeQuery 사용을 위한 Repository
 
     private final NoticeJoinRepository noticeJoinRepository; // @JoinColumn 적용된 공지사항
 
@@ -140,7 +140,7 @@ public class NoticeJoinService implements INoticeJoinService {
         log.info(this.getClass().getName() + ".getNoticeListUsingNativeQuery Start!");
 
         // 공지사항 전체 리스트 조회하기
-        List<NoticeEntity> rList = noticeRepository.getNoticeListUsingSQL();
+        List<NoticeSQLEntity> rList = noticeSQLRepository.getNoticeListUsingSQL();
 
         // 엔티티의 값들을 DTO에 맞게 넣어주기
         List<NoticeDTO> nList = new ObjectMapper().convertValue(rList,
